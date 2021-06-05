@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -16,26 +17,28 @@ public class EmployeeServiceImpl implements EmployeeService{
     private EmployeeDAO employeeDAO;
 
     @Override
-    @Transactional
     public List<Employee> getEmployees() {
-        return employeeDAO.getEmployees();
+        return employeeDAO.findAll();
     }
 
     @Override
-    @Transactional
     public Employee getEmployee(int id) {
-        return employeeDAO.getEmployee(id);
+        Optional<Employee> optional = employeeDAO.findById(id);
+        return optional.orElse(null);
     }
 
     @Override
-    @Transactional
     public void saveEmployee(Employee employee) {
-        employeeDAO.saveEmployee(employee);
+        employeeDAO.save(employee);
     }
 
     @Override
-    @Transactional
     public void deleteEmployee(Employee employee) {
-        employeeDAO.deleteEmployee(employee);
+        employeeDAO.delete(employee);
     }
+
+    @Override
+    public List<Employee> findEmployeeByName(String name){
+        return employeeDAO.findEmployeeByName(name);
+    };
 }

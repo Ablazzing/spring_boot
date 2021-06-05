@@ -27,7 +27,7 @@ public class MyRestController {
     public Employee getEmployee(@PathVariable int id){
         Employee employee = employeeService.getEmployee(id);
         if (employee==null){
-            throw new NoSuchEmployee("employee with this id "+id + " is not exist");
+            throw new NoSuchEmployee("employee with this id "+id + " is not exist yeah!");
         }
         return employee;
     }
@@ -56,6 +56,15 @@ public class MyRestController {
         employeeService.deleteEmployee(employeeForDelete);
 
         return "success";
+    }
+
+    @GetMapping("/employees/name/{name}")
+    public List<Employee> findEmployeesByName(@PathVariable String name){
+        List<Employee> employees = employeeService.findEmployeeByName(name);
+        if (employees.size()==0){
+            throw new NoSuchEmployee("The employees with name "+name+" are not found ");
+        }
+        return employees;
     }
 
 
